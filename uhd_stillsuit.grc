@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: no_gui
     hier_block_src_path: '.:'
-    id: uhd_oz39
+    id: uhd_stillsuit
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -46,7 +46,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 4.0]
+    coordinate: [1008, 4.0]
     rotation: 0
     state: enabled
 - name: control_port
@@ -63,7 +63,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 4.0]
+    coordinate: [1160, 4.0]
+    rotation: 0
+    state: enabled
+- name: rf_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF BANDWITDH
+    short_id: b
+    type: eng_float
+    value: 20e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 4.0]
     rotation: 0
     state: enabled
 - name: rf_freq
@@ -109,12 +126,46 @@ blocks:
     label: SAMPLE RATE
     short_id: s
     type: eng_float
-    value: 40e6
+    value: 20e6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 4.0]
+    coordinate: [576, 4.0]
+    rotation: 0
+    state: enabled
+- name: uhd_address
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: 'UHD Device Address (example: ''serial=ABCD1234'' or ''addr=192.168.1.2'')'
+    short_id: I
+    type: str
+    value: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 500.0]
+    rotation: 0
+    state: enabled
+- name: uhd_args
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: 'UHD ARGS (example: ''rcv_frame_size=8192,num_rcv_frames=128'')'
+    short_id: A
+    type: str
+    value: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 388.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_source_0
@@ -154,7 +205,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    bw0: '0'
+    bw0: rf_bw
     bw1: '0'
     bw10: '0'
     bw11: '0'
@@ -292,8 +343,8 @@ blocks:
     dc_offs_enb7: default
     dc_offs_enb8: default
     dc_offs_enb9: default
-    dev_addr: '""'
-    dev_args: '""'
+    dev_addr: uhd_address
+    dev_args: uhd_args
     gain0: rf_gain
     gain1: '0'
     gain10: '0'
@@ -550,7 +601,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 252]
+    coordinate: [248, 244.0]
     rotation: 0
     state: enabled
 - name: xmlrpc_serv_ip
@@ -601,7 +652,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 4.0]
+    coordinate: [704, 4.0]
     rotation: 0
     state: enabled
 - name: zmq_out_port
@@ -618,7 +669,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 4.0]
+    coordinate: [856, 4.0]
     rotation: 0
     state: enabled
 

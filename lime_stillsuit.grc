@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: no_gui
     hier_block_src_path: '.:'
-    id: lime_oz39
+    id: lime_stillsuit
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -109,7 +109,7 @@ blocks:
     label: RF GAIN
     short_id: g
     type: eng_float
-    value: '50.0'
+    value: '20.0'
   states:
     bus_sink: false
     bus_source: false
@@ -142,7 +142,7 @@ blocks:
     bandwidth: rf_bw
     center_freq: rf_freq
     comment: ''
-    dev_args: ''
+    dev_args: driver=lime
     freq_correction: '0'
     gain: rf_gain
     maxoutbuf: '0'
@@ -153,7 +153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [216, 284.0]
+    coordinate: [216, 276.0]
     rotation: 0
     state: true
 - name: xmlrpc_serv_ip

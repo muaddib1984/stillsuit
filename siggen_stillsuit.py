@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Siggen Oz39
+# Title: Siggen Stillsuit
 # Author: muaddib
 # Description: radio head for passing I/Q to other flowgraphs
 # GNU Radio version: 3.9.4.0
@@ -28,10 +28,10 @@ import threading
 
 
 
-class siggen_oz39(gr.top_block):
+class siggen_stillsuit(gr.top_block):
 
     def __init__(self, control_ip='127.0.0.1', control_port=8000, rf_bw=20e6, rf_freq=750e6, rf_gain=1, samp_rate=20e6, zmq_out_ip='127.0.0.1', zmq_out_port=5000):
-        gr.top_block.__init__(self, "Siggen Oz39", catch_exceptions=True)
+        gr.top_block.__init__(self, "Siggen Stillsuit", catch_exceptions=True)
 
         ##################################################
         # Parameters
@@ -164,7 +164,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=siggen_oz39, options=None):
+def main(top_block_cls=siggen_stillsuit, options=None):
     if options is None:
         options = argument_parser().parse_args()
     tb = top_block_cls(control_ip=options.control_ip, control_port=options.control_port, rf_bw=options.rf_bw, rf_freq=options.rf_freq, rf_gain=options.rf_gain, samp_rate=options.samp_rate, zmq_out_ip=options.zmq_out_ip)
