@@ -1,0 +1,137 @@
+STILLSUIT
+STILLSUIT is a collection of GNURadio flowgraphs that act as wrappers for three common Software Defined Radios. The output
+of each flowgraph is a ZMQ datastream and each one also starts an XMLRPC server for remote control.
+Each SDR's parameters are exposed as command line arguments and there was a focus on normalizing common SDR parameters.
+STILLSUIT was created to work with the ARAKKIS project (https://github.com/muaddib1984/arrakis). ARAKKIS uses any of the 
+STILLSUIT flowgraphs on a remote host as the data source to a co-located DSP processor flowgraph. The DSP flowgraph connects 
+over a low data rate IP Connection (SSH) to a data visualization flowgraph on a local machine for remote spectrum monitoring. 
+
+
+The STILLSUIT SDR Portions in the diagram are contained in STILLSUIT.
+The three supported SDR's are: 
+-Ettus Research USRP
+-LimeMicro LimeSDR
+-RTL-SDR
+
+
+
++-------------------------------+        +----------------+
+| REMOTE HOST                   |        |LOCAL HOST      |
+| +---------+    +------------+ |  SSH   |                |
+| |STILLSUIT+--->+SPACE FOLDER+--------->+GUILD NAVIGATOR |
+| |  (SDR)  | ZMQ|    (DSP)   | |  ZMQ   | (VISUALIZATION |
+| +---------+    +------------+ |        | AND CONTROL)   |
++-------------------------------+        +-----+----------+
+       ^               ^                       |
+       |               +-----------------------+
+       +---------------------------------------+
+                       XMLRPC
+
+
+DEPENDENCIES:
+GNURadio 3.9+
+
+DESCRIPTION:
+DATA STREAM
+-STILLSUIT streams complex32 type I/Q data from the flowgraph via ZMQ.
+
+CONTROL
+-STILLSUIT exposes all RADIO parameters to be remote controlled via an XMLRPC server.
+    The default ports for all three STILLSUIT sources is 8000, but can be changed via command line arguments.
+
+USAGE:
+-The default parameters for STILLSUIT are set to work with the ARAKKIS project 'out of the box'. 
+    Parameters can be seen using '-h' in the command line.
+
+-USRP STILLSUIT Help Menu:
+    uhd_stillsuit.py -h
+
+usage: uhd_stillsuit.py [-h] [-x CONTROL_IP] [-X CONTROL_PORT] [-b RF_BW]
+                        [-f RF_FREQ] [-g RF_GAIN] [-s SAMP_RATE] [-I UHD_ADDRESS]
+                        [-A UHD_ARGS] [-o ZMQ_OUT_IP]
+
+radio head for passing I/Q to other flowgraphs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -x CONTROL_IP, --control-ip CONTROL_IP
+                        Set XMLRPC SERVER IP [default='127.0.0.1']
+  -X CONTROL_PORT, --control-port CONTROL_PORT
+                        Set XMLRPC SERVER PORT [default=8000]
+  -b RF_BW, --rf-bw RF_BW
+                        Set RF BANDWITDH [default='20.0M']
+  -f RF_FREQ, --rf-freq RF_FREQ
+                        Set RF FREQUENCY [default='750.0M']
+  -g RF_GAIN, --rf-gain RF_GAIN
+                        Set RF GAIN [default='20.0']
+  -s SAMP_RATE, --samp-rate SAMP_RATE
+                        Set SAMPLE RATE [default='20.0M']
+  -I UHD_ADDRESS, --uhd-address UHD_ADDRESS
+                        Set UHD Device Address (example: 'serial=ABCD1234' or
+                        'addr=192.168.1.2') [default='']
+  -A UHD_ARGS, --uhd-args UHD_ARGS
+                        Set UHD ARGS (example:
+                        'rcv_frame_size=8192,num_rcv_frames=128') [default='']
+  -o ZMQ_OUT_IP, --zmq-out-ip ZMQ_OUT_IP
+                        Set ZMQ OUT IP ADDR [default='127.0.0.1']
+
+
+-LimeSDR STILLSUIT Help Menu:
+    lime_stillsuit.py -h
+usage: lime_stillsuit.py [-h] [-x CONTROL_IP] [-X CONTROL_PORT] [-b RF_BW]
+                         [-f RF_FREQ] [-g RF_GAIN] [-s SAMP_RATE] [-o ZMQ_OUT_IP]
+
+radio head for passing I/Q to other flowgraphs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -x CONTROL_IP, --control-ip CONTROL_IP
+                        Set XMLRPC SERVER IP [default='127.0.0.1']
+  -X CONTROL_PORT, --control-port CONTROL_PORT
+                        Set XMLRPC SERVER PORT [default=8000]
+  -b RF_BW, --rf-bw RF_BW
+                        Set RF BANDWITDH [default='20.0M']
+  -f RF_FREQ, --rf-freq RF_FREQ
+                        Set RF FREQUENCY [default='750.0M']
+  -g RF_GAIN, --rf-gain RF_GAIN
+                        Set RF GAIN [default='20.0']
+  -s SAMP_RATE, --samp-rate SAMP_RATE
+                        Set SAMPLE RATE [default='20.0M']
+  -o ZMQ_OUT_IP, --zmq-out-ip ZMQ_OUT_IP
+                        Set ZMQ OUT IP ADDR [default='127.0.0.1']
+
+-RTLSDR STILLSUIT Help Menu:
+    rtl_stillsuit.py -h
+
+usage: rtl_stillsuit.py [-h] [-x CONTROL_IP] [-X CONTROL_PORT] [-d DEVICE_IDX]
+                        [-f RF_FREQ] [-g RF_GAIN] [-s SAMP_RATE] [-o ZMQ_OUT_IP]
+
+radio head for passing I/Q to other flowgraphs
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -x CONTROL_IP, --control-ip CONTROL_IP
+                        Set XMLRPC SERVER IP [default='127.0.0.1']
+  -X CONTROL_PORT, --control-port CONTROL_PORT
+                        Set XMLRPC SERVER PORT [default=8000]
+  -d DEVICE_IDX, --device-idx DEVICE_IDX
+                        Set DEVICE INDEX [default=0]
+  -f RF_FREQ, --rf-freq RF_FREQ
+                        Set RF FREQUENCY [default='750.0M']
+  -g RF_GAIN, --rf-gain RF_GAIN
+                        Set RF GAIN [default='20.0']
+  -s SAMP_RATE, --samp-rate SAMP_RATE
+                        Set SAMPLE RATE [default='2.56M']
+  -o ZMQ_OUT_IP, --zmq-out-ip ZMQ_OUT_IP
+                        Set ZMQ OUT IP ADDR [default='127.0.0.1']
+
+
+RUNNING:
+
+**NOTE**
+The sampling rate for the STILLSUIT sources for USRP and LimeSDR are set by default to 20Msps.
+The sampling rate for the STILLSUIT RTLSDR is set by default to 2Msps.
+
+Future Work:
+Include HackRF
+

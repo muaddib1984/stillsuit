@@ -29,7 +29,7 @@ import threading
 
 class uhd_stillsuit(gr.top_block):
 
-    def __init__(self, control_ip='127.0.0.1', control_port=8000, rf_bw=20e6, rf_freq=750e6, rf_gain=50.0, samp_rate=20e6, uhd_address="", uhd_args="", zmq_out_ip='127.0.0.1', zmq_out_port=5000):
+    def __init__(self, control_ip='127.0.0.1', control_port=8000, rf_bw=20e6, rf_freq=750e6, rf_gain=20.0, samp_rate=20e6, uhd_address="", uhd_args="", zmq_out_ip='127.0.0.1', zmq_out_port=5000):
         gr.top_block.__init__(self, "Uhd Stillsuit", catch_exceptions=True)
 
         ##################################################
@@ -162,7 +162,7 @@ def argument_parser():
         "-f", "--rf-freq", dest="rf_freq", type=eng_float, default=eng_notation.num_to_str(float(750e6)),
         help="Set RF FREQUENCY [default=%(default)r]")
     parser.add_argument(
-        "-g", "--rf-gain", dest="rf_gain", type=eng_float, default=eng_notation.num_to_str(float(50.0)),
+        "-g", "--rf-gain", dest="rf_gain", type=eng_float, default=eng_notation.num_to_str(float(20.0)),
         help="Set RF GAIN [default=%(default)r]")
     parser.add_argument(
         "-s", "--samp-rate", dest="samp_rate", type=eng_float, default=eng_notation.num_to_str(float(20e6)),
