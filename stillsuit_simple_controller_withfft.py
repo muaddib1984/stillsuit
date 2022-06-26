@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Stillsuit Simple Controller Nofft
+# Title: Stillsuit Simple Controller Withfft
 # Author: muaddib
 # Description: remote control/visual for stillsuit
 # GNU Radio version: 3.10.2.0-rc1
@@ -22,15 +22,18 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-from gnuradio import gr
+from PyQt5 import Qt
+from gnuradio import qtgui
 from gnuradio.filter import firdes
+import sip
+from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+from gnuradio import zeromq
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 from xmlrpc.client import ServerProxy
@@ -39,12 +42,12 @@ from xmlrpc.client import ServerProxy
 
 from gnuradio import qtgui
 
-class stillsuit_simple_controller_nofft(gr.top_block, Qt.QWidget):
+class stillsuit_simple_controller_withfft(gr.top_block, Qt.QWidget):
 
-    def __init__(self, control_ip='127.0.0.1', control_port=8002, rf_bw=10e6, rf_freq=750e6, rf_gain=20.0, samp_rate=20e6, zmq_in_ip='127.0.0.1', zmq_in_port=5001):
-        gr.top_block.__init__(self, "Stillsuit Simple Controller Nofft", catch_exceptions=True)
+    def __init__(self, control_ip='127.0.0.1', control_port=8002, rf_bw=10e6, rf_freq=750e6, rf_gain=20.0, samp_rate=2e6, zmq_in_ip='127.0.0.1', zmq_in_port=5001):
+        gr.top_block.__init__(self, "Stillsuit Simple Controller Withfft", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Stillsuit Simple Controller Nofft")
+        self.setWindowTitle("Stillsuit Simple Controller Withfft")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -62,7 +65,7 @@ class stillsuit_simple_controller_nofft(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "stillsuit_simple_controller_nofft")
+        self.settings = Qt.QSettings("GNU Radio", "stillsuit_simple_controller_withfft")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -98,6 +101,7 @@ class stillsuit_simple_controller_nofft(gr.top_block, Qt.QWidget):
         self._samp_rate_gui_range = Range(200e3, 40e6, 1e3, 2e6, 200)
         self._samp_rate_gui_win = RangeWidget(self._samp_rate_gui_range, self.set_samp_rate_gui, "Sample Rate", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._samp_rate_gui_win)
+        self.zeromq_sub_source_0 = zeromq.sub_source(gr.sizeof_gr_complex, 1, "tcp://"+str(zmq_in_ip)+":"+str(zmq_in_port), 100, True, -1, '')
         self.xmlrpc_client_0_0_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
         self.xmlrpc_client_0_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
         self.xmlrpc_client_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
@@ -119,11 +123,58 @@ class stillsuit_simple_controller_nofft(gr.top_block, Qt.QWidget):
         self._rf_bw_gui_range = Range(200e3, 40e6, 1e3, samp_rate_gui*.8, 200)
         self._rf_bw_gui_win = RangeWidget(self._rf_bw_gui_range, self.set_rf_bw_gui, "Bandwidth", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._rf_bw_gui_win)
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+            1024, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            0, #fc
+            samp_rate_gui, #bw
+            "", #name
+            1,
+            None # parent
+        )
+        self.qtgui_freq_sink_x_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
 
+
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+            "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+
+
+        ##################################################
+        # Connections
+        ##################################################
+        self.connect((self.zeromq_sub_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "stillsuit_simple_controller_nofft")
+        self.settings = Qt.QSettings("GNU Radio", "stillsuit_simple_controller_withfft")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -184,6 +235,7 @@ class stillsuit_simple_controller_nofft(gr.top_block, Qt.QWidget):
     def set_samp_rate_gui(self, samp_rate_gui):
         self.samp_rate_gui = samp_rate_gui
         self.set_rf_bw_gui(self.samp_rate_gui*.8)
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate_gui)
         self.xmlrpc_client_0_0_0_0.set_samp_rate(self.samp_rate_gui)
 
     def get_rf_gain_gui(self):
@@ -228,7 +280,7 @@ def argument_parser():
         "-g", "--rf-gain", dest="rf_gain", type=eng_float, default=eng_notation.num_to_str(float(20.0)),
         help="Set RF GAIN [default=%(default)r]")
     parser.add_argument(
-        "-s", "--samp-rate", dest="samp_rate", type=eng_float, default=eng_notation.num_to_str(float(20e6)),
+        "-s", "--samp-rate", dest="samp_rate", type=eng_float, default=eng_notation.num_to_str(float(2e6)),
         help="Set SAMPLE RATE [default=%(default)r]")
     parser.add_argument(
         "-z", "--zmq-in-ip", dest="zmq_in_ip", type=str, default='127.0.0.1',
@@ -236,7 +288,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=stillsuit_simple_controller_nofft, options=None):
+def main(top_block_cls=stillsuit_simple_controller_withfft, options=None):
     if options is None:
         options = argument_parser().parse_args()
 
