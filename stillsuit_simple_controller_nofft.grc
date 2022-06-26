@@ -1,0 +1,457 @@
+options:
+  parameters:
+    author: muaddib
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: remote visualizatino for space folder application
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: stillsuit_simple_controller_nofft
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: ''
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: fft_length
+  id: variable
+  parameters:
+    comment: ''
+    value: 256 * int(pow(2, np.ceil(np.log(samp_ratio)/np.log(2))))
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 324.0]
+    rotation: 0
+    state: enabled
+- name: rf_bw_gui
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 0,2,1,2
+    label: RF BANDWIDTH
+    label0: 1Msps
+    label1: 1.92Msps
+    label2: 5Msps
+    label3: 10Msps
+    label4: 20Msps
+    labels: '[''1.02MHz'', ''1.54MHz'', ''1.79MHz'', ''1.92MHz'', ''2.05MHz'', ''2.16MHz'',
+      ''2.56MHz'', ''2.88MHz'', ''3.2MHz'', ''5.0MHz'', ''10.0MHz'', ''15.0MHz'',''20MHz'',
+      ''25.0MHz'', ''30.0MHz'', ''35.0MHz'', ''40.0MHz'', ''45.0MHz'', ''50.0MHz'',
+      ''55.0MHz'']'
+    num_opts: '0'
+    option0: 1e6
+    option1: 1.92e6
+    option2: 5e6
+    option3: 10e6
+    option4: 20e6
+    options: '[1024000.0, 1536000.0, 1792000.0, 1920000.0, 2048000.0, 2160000.0, 2560000.0,
+      2880000.0, 3200000.0, 5000000.0, 10000000.0, 15000000.0,20000000.0, 25000000.0,
+      30000000.0, 35000000.0, 40000000.0, 45000000.0, 50000000.0, 55000000.0]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: rf_bw
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 412.0]
+    rotation: 0
+    state: disabled
+- name: rf_bw_gui
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Bandwidth
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: 200e3
+    step: 1e3
+    stop: 40e6
+    value: samp_rate_gui*.8
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 284.0]
+    rotation: 0
+    state: true
+- name: rf_freq_gui
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 1,0,1,2
+    label: RF FREQ
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: 64e6
+    step: 100e3
+    stop: 6e9
+    value: 750e6
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 412]
+    rotation: 0
+    state: enabled
+- name: rf_gain_gui
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 0,0,1,2
+    label: RF GAIN
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '80'
+    value: '50'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 412]
+    rotation: 0
+    state: enabled
+- name: samp_rate_gui
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 1,2,1,2
+    label: SAMPLE RATE
+    label0: 1Msps
+    label1: 5Msps
+    label2: 5Msps
+    label3: 20Msps
+    label4: 40Msps
+    labels: '[''1.02MHz'', ''1.54MHz'', ''1.79MHz'', ''1.92MHz'', ''2.05MHz'', ''2.16MHz'',
+      ''2.56MHz'', ''2.88MHz'', ''3.2MHz'', ''5.0MHz'', ''10.0MHz'', ''15.0MHz'',''20MHz'',
+      ''25.0MHz'', ''30.0MHz'', ''35.0MHz'', ''40.0MHz'', ''45.0MHz'', ''50.0MHz'',
+      ''55.0MHz'']'
+    num_opts: '0'
+    option0: 1e6
+    option1: 5e6
+    option2: 10e6
+    option3: 20e6
+    option4: 40e6
+    options: '[1024000.0, 1536000.0, 1792000.0, 1920000.0, 2048000.0, 2160000.0, 2560000.0,
+      2880000.0, 3200000.0, 5000000.0, 10000000.0, 15000000.0,20000000.0, 25000000.0,
+      30000000.0, 35000000.0, 40000000.0, 45000000.0, 50000000.0, 55000000.0]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: samp_rate
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 412.0]
+    rotation: 0
+    state: disabled
+- name: samp_rate_gui
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Sample Rate
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: 200e3
+    step: 1e3
+    stop: 40e6
+    value: 2e6
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 300.0]
+    rotation: 0
+    state: true
+- name: samp_ratio
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate/1E6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 196.0]
+    rotation: 0
+    state: enabled
+- name: vec_per_sec
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 388.0]
+    rotation: 0
+    state: enabled
+- name: control_ip
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: XMLRPC SERVER IP
+    short_id: x
+    type: str
+    value: 127.0.0.1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 4]
+    rotation: 0
+    state: enabled
+- name: control_port
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: XMLRPC SERVER PORT
+    short_id: X
+    type: intx
+    value: '8002'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 4]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 260.0]
+    rotation: 0
+    state: enabled
+- name: rf_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF BANDWITDH
+    short_id: b
+    type: eng_float
+    value: 10e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1168, 4]
+    rotation: 0
+    state: enabled
+- name: rf_freq
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF FREQUENCY
+    short_id: f
+    type: eng_float
+    value: 750e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 4]
+    rotation: 0
+    state: enabled
+- name: rf_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF GAIN
+    short_id: g
+    type: eng_float
+    value: '20.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 4]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: SAMPLE RATE
+    short_id: s
+    type: eng_float
+    value: 20e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 4]
+    rotation: 0
+    state: enabled
+- name: xmlrpc_client_0
+  id: xmlrpc_client
+  parameters:
+    addr: 127.0.0.1
+    alias: ''
+    callback: set_rf_gain
+    comment: ''
+    port: '8000'
+    variable: rf_gain_gui
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 540]
+    rotation: 0
+    state: enabled
+- name: xmlrpc_client_0_0
+  id: xmlrpc_client
+  parameters:
+    addr: 127.0.0.1
+    alias: ''
+    callback: set_rf_freq
+    comment: ''
+    port: '8000'
+    variable: rf_freq_gui
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 540]
+    rotation: 0
+    state: enabled
+- name: xmlrpc_client_0_0_0
+  id: xmlrpc_client
+  parameters:
+    addr: 127.0.0.1
+    alias: ''
+    callback: set_rf_bw
+    comment: ''
+    port: '8000'
+    variable: rf_bw_gui
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 540]
+    rotation: 0
+    state: enabled
+- name: xmlrpc_client_0_0_0_0
+  id: xmlrpc_client
+  parameters:
+    addr: 127.0.0.1
+    alias: ''
+    callback: set_samp_rate
+    comment: ''
+    port: '8000'
+    variable: samp_rate_gui
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 540.0]
+    rotation: 0
+    state: enabled
+- name: xmlrpc_serv_ip
+  id: xmlrpc_server
+  parameters:
+    addr: 127.0.0.1
+    alias: ''
+    comment: ''
+    port: control_port
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 116]
+    rotation: 0
+    state: enabled
+- name: zmq_in_ip
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ZMQ IN IP ADDR
+    short_id: z
+    type: str
+    value: 127.0.0.1
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 4]
+    rotation: 0
+    state: enabled
+- name: zmq_in_port
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ZMQ IN IP PORT
+    short_id: Z
+    type: ''
+    value: '5001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [472, 4]
+    rotation: 0
+    state: enabled
+connections: []
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.2.0-rc1

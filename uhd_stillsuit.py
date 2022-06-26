@@ -8,7 +8,7 @@
 # Title: Uhd Stillsuit
 # Author: muaddib
 # Description: radio head for passing I/Q to other flowgraphs
-# GNU Radio version: 3.9.4.0
+# GNU Radio version: 3.10.2.0-rc1
 
 from gnuradio import gr
 from gnuradio.filter import firdes
@@ -29,7 +29,7 @@ import threading
 
 class uhd_stillsuit(gr.top_block):
 
-    def __init__(self, control_ip='127.0.0.1', control_port=8000, rf_bw=20e6, rf_freq=750e6, rf_gain=20.0, samp_rate=20e6, uhd_address="", uhd_args="", zmq_out_ip='127.0.0.1', zmq_out_port=5000):
+    def __init__(self, control_ip='127.0.0.1', control_port=8000, rf_bw=20e6, rf_freq=1534e6, rf_gain=40.0, samp_rate=2e6, uhd_address="", uhd_args="", zmq_out_ip='127.0.0.1', zmq_out_port=5000):
         gr.top_block.__init__(self, "Uhd Stillsuit", catch_exceptions=True)
 
         ##################################################
@@ -71,7 +71,6 @@ class uhd_stillsuit(gr.top_block):
         self.uhd_usrp_source_0.set_bandwidth(rf_bw, 0)
         self.uhd_usrp_source_0.set_rx_agc(False, 0)
         self.uhd_usrp_source_0.set_gain(rf_gain, 0)
-
 
 
         ##################################################
@@ -159,13 +158,13 @@ def argument_parser():
         "-b", "--rf-bw", dest="rf_bw", type=eng_float, default=eng_notation.num_to_str(float(20e6)),
         help="Set RF BANDWITDH [default=%(default)r]")
     parser.add_argument(
-        "-f", "--rf-freq", dest="rf_freq", type=eng_float, default=eng_notation.num_to_str(float(750e6)),
+        "-f", "--rf-freq", dest="rf_freq", type=eng_float, default=eng_notation.num_to_str(float(1534e6)),
         help="Set RF FREQUENCY [default=%(default)r]")
     parser.add_argument(
-        "-g", "--rf-gain", dest="rf_gain", type=eng_float, default=eng_notation.num_to_str(float(20.0)),
+        "-g", "--rf-gain", dest="rf_gain", type=eng_float, default=eng_notation.num_to_str(float(40.0)),
         help="Set RF GAIN [default=%(default)r]")
     parser.add_argument(
-        "-s", "--samp-rate", dest="samp_rate", type=eng_float, default=eng_notation.num_to_str(float(20e6)),
+        "-s", "--samp-rate", dest="samp_rate", type=eng_float, default=eng_notation.num_to_str(float(2e6)),
         help="Set SAMPLE RATE [default=%(default)r]")
     parser.add_argument(
         "-I", "--uhd-address", dest="uhd_address", type=str, default="",

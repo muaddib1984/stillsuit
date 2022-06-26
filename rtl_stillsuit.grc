@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -92,7 +93,7 @@ blocks:
     label: RF FREQUENCY
     short_id: f
     type: eng_float
-    value: 750e6
+    value: 1534e6
   states:
     bus_sink: false
     bus_source: false
@@ -230,3 +231,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.2.0-rc1
