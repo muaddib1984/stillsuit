@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: no_gui
     hier_block_src_path: '.:'
-    id: rtl_stillsuit
+    id: rsp1a_stillsuit
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -33,18 +33,6 @@ options:
     state: enabled
 
 blocks:
-- name: didx
-  id: variable
-  parameters:
-    comment: ''
-    value: str(device_idx)
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [576, 124.0]
-    rotation: 0
-    state: true
 - name: control_ip
   id: parameter
   parameters:
@@ -59,7 +47,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 4]
+    coordinate: [1008, 4]
     rotation: 0
     state: enabled
 - name: control_port
@@ -76,24 +64,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1288, 4]
+    coordinate: [1160, 4]
     rotation: 0
     state: enabled
-- name: device_idx
+- name: rf_bw
   id: parameter
   parameters:
     alias: ''
     comment: ''
     hide: none
-    label: DEVICE INDEX
-    short_id: d
-    type: str
-    value: '0'
+    label: RF BANDWITDH
+    short_id: b
+    type: eng_float
+    value: 20e6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 4]
+    coordinate: [440, 4]
     rotation: 0
     state: enabled
 - name: rf_freq
@@ -105,7 +93,7 @@ blocks:
     label: RF FREQUENCY
     short_id: f
     type: eng_float
-    value: 1534e6
+    value: 750e6
   states:
     bus_sink: false
     bus_source: false
@@ -122,7 +110,7 @@ blocks:
     label: RF GAIN
     short_id: g
     type: eng_float
-    value: '20.0'
+    value: '40.0'
   states:
     bus_sink: false
     bus_source: false
@@ -139,7 +127,7 @@ blocks:
     label: SAMPLE RATE
     short_id: s
     type: eng_float
-    value: 2.56e6
+    value: 20e6
   states:
     bus_sink: false
     bus_source: false
@@ -147,26 +135,37 @@ blocks:
     coordinate: [576, 4]
     rotation: 0
     state: enabled
-- name: soapy_rtlsdr_source_0
-  id: soapy_rtlsdr_source
+- name: sdrplay3_rsp1a_0
+  id: sdrplay3_rsp1a
   parameters:
+    AGC: 'False'
     affinity: ''
-    agc: 'False'
+    agc_set_point: '-30'
     alias: ''
+    bandwidth: '0'
+    biasT: 'False'
     center_freq: rf_freq
     comment: ''
-    dev_args: str("driver=rtlsdr,rtl="+device_idx)
-    freq_correction: '0'
-    gain: rf_gain
+    dab_notch_filter: 'False'
+    dc_offset_mode: 'False'
+    debug_mode: 'False'
+    freq_corr: '0'
+    if_gRdB: rf_gain
+    iq_balance_mode: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fc32
+    output_type: fc32
+    rf_gR: '0'
+    rf_notch_filter: 'False'
+    rsp_selector: ''
+    sample_rate: samp_rate
+    sample_sequence_gaps_check: 'False'
+    show_gain_changes: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 276.0]
+    coordinate: [256, 268.0]
     rotation: 0
     state: true
 - name: xmlrpc_serv_ip
@@ -200,7 +199,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 268]
+    coordinate: [512, 268]
     rotation: 0
     state: enabled
 - name: zmq_out_ip
@@ -217,7 +216,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [832, 4]
+    coordinate: [704, 4]
     rotation: 0
     state: enabled
 - name: zmq_out_port
@@ -234,12 +233,12 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 4]
+    coordinate: [856, 4]
     rotation: 0
     state: enabled
 
 connections:
-- [soapy_rtlsdr_source_0, '0', zeromq_pub_sink_0_0, '0']
+- [sdrplay3_rsp1a_0, '0', zeromq_pub_sink_0_0, '0']
 
 metadata:
   file_format: 1

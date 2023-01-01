@@ -8,7 +8,7 @@
 # Title: Stillsuit Simple Controller Withfft
 # Author: muaddib
 # Description: remote control/visual for stillsuit
-# GNU Radio version: 3.10.2.0-rc1
+# GNU Radio version: 3.10.3.0
 
 from packaging.version import Version as StrictVersion
 
@@ -44,7 +44,7 @@ from gnuradio import qtgui
 
 class stillsuit_simple_controller_withfft(gr.top_block, Qt.QWidget):
 
-    def __init__(self, control_ip='127.0.0.1', control_port=8002, rf_bw=10e6, rf_freq=750e6, rf_gain=20.0, samp_rate=2e6, zmq_in_ip='127.0.0.1', zmq_in_port=5001):
+    def __init__(self, control_ip='127.0.0.1', control_port=8002, rf_bw=10e6, rf_freq=750e6, rf_gain=20.0, samp_rate=2e6, zmq_in_ip='127.0.0.1', zmq_in_port=5000):
         gr.top_block.__init__(self, "Stillsuit Simple Controller Withfft", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Stillsuit Simple Controller Withfft")
@@ -101,7 +101,7 @@ class stillsuit_simple_controller_withfft(gr.top_block, Qt.QWidget):
         self._samp_rate_gui_range = Range(200e3, 40e6, 1e3, 2e6, 200)
         self._samp_rate_gui_win = RangeWidget(self._samp_rate_gui_range, self.set_samp_rate_gui, "Sample Rate", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._samp_rate_gui_win)
-        self.zeromq_sub_source_0 = zeromq.sub_source(gr.sizeof_gr_complex, 1, "tcp://"+str(zmq_in_ip)+":"+str(zmq_in_port), 100, True, -1, '')
+        self.zeromq_sub_source_0 = zeromq.sub_source(gr.sizeof_gr_complex, 1, "tcp://"+str(zmq_in_ip)+":"+str(zmq_in_port), 100, True, (-1), '')
         self.xmlrpc_client_0_0_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
         self.xmlrpc_client_0_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
         self.xmlrpc_client_0_0 = ServerProxy('http://'+'127.0.0.1'+':8000')
@@ -133,7 +133,7 @@ class stillsuit_simple_controller_withfft(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
