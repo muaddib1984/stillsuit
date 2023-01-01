@@ -174,7 +174,7 @@ blocks:
     output_type: fc32
     rf_gR: '0'
     rf_notch_filter: 'False'
-    rsp_selector: ''
+    rsp_selector: rsp_address
     sample_rate: samp_rate
     sample_sequence_gaps_check: 'False'
     show_gain_changes: 'False'

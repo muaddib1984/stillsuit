@@ -54,7 +54,7 @@ class rsp1a_stillsuit(gr.top_block):
         self.xmlrpc_serv_ip_thread.daemon = True
         self.xmlrpc_serv_ip_thread.start()
         self.sdrplay3_rsp1a_0 = sdrplay3.rsp1a(
-            '',
+            rsp_address,
             stream_args=sdrplay3.stream_args(
                 output_type='fc32',
                 channels_size=1
