@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -46,7 +47,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 4]
+    coordinate: [1072, 4.0]
     rotation: 0
     state: enabled
 - name: control_port
@@ -63,9 +64,44 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 4]
+    coordinate: [1224, 4.0]
     rotation: 0
     state: enabled
+- name: limesdr_source_0
+  id: limesdr_source
+  parameters:
+    affinity: ''
+    alias: ''
+    allow_tcxo_dac: '0'
+    analog_bandw_ch0: rf_bw
+    analog_bandw_ch1: 5e6
+    calibr_bandw_ch0: 5e6
+    calibr_bandw_ch1: 5e6
+    channel_mode: '0'
+    comment: ''
+    dacVal: '125'
+    digital_bandw_ch0: '0'
+    digital_bandw_ch1: '0'
+    filename: ''
+    gain_dB_ch0: rf_gain
+    gain_dB_ch1: '30'
+    lna_path_ch0: '255'
+    lna_path_ch1: '2'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nco_freq_ch0: '0'
+    nco_freq_ch1: '0'
+    oversample: '0'
+    rf_freq: rf_freq
+    samp_rate: samp_rate
+    serial: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 364.0]
+    rotation: 0
+    state: true
 - name: rf_bw
   id: parameter
   parameters:
@@ -80,7 +116,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 4]
+    coordinate: [504, 4.0]
     rotation: 0
     state: enabled
 - name: rf_freq
@@ -106,10 +142,10 @@ blocks:
     alias: ''
     comment: ''
     hide: none
-    label: RF GAIN
+    label: RF GAIN (values are 0-73)
     short_id: g
-    type: eng_float
-    value: '20.0'
+    type: intx
+    value: '50'
   states:
     bus_sink: false
     bus_source: false
@@ -131,7 +167,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 4]
+    coordinate: [640, 4.0]
     rotation: 0
     state: enabled
 - name: soapy_limesdr_source_0
@@ -155,7 +191,7 @@ blocks:
     bus_structure: null
     coordinate: [216, 276.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: xmlrpc_serv_ip
   id: xmlrpc_server
   parameters:
@@ -204,7 +240,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 4]
+    coordinate: [768, 4.0]
     rotation: 0
     state: enabled
 - name: zmq_out_port
@@ -215,18 +251,20 @@ blocks:
     hide: none
     label: ZMQ OUT IP PORT
     short_id: O
-    type: ''
+    type: str
     value: '5000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [856, 4]
+    coordinate: [920, 4.0]
     rotation: 0
     state: enabled
 
 connections:
+- [limesdr_source_0, '0', zeromq_pub_sink_0_0, '0']
 - [soapy_limesdr_source_0, '0', zeromq_pub_sink_0_0, '0']
 
 metadata:
   file_format: 1
+  grc_version: 3.10.3.0

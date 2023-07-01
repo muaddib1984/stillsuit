@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -313,7 +314,7 @@ blocks:
     hide: none
     label: ZMQ OUT IP PORT
     short_id: O
-    type: ''
+    type: str
     value: '5000'
   states:
     bus_sink: false
@@ -333,3 +334,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.3.0

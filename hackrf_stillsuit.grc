@@ -227,7 +227,7 @@ blocks:
     hide: none
     label: ZMQ OUT IP PORT
     short_id: O
-    type: ''
+    type: str
     value: '5000'
   states:
     bus_sink: false

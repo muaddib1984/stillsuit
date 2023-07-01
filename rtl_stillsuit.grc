@@ -154,8 +154,8 @@ blocks:
     agc: 'False'
     alias: ''
     center_freq: rf_freq
-    comment: ''
-    dev_args: str("driver=rtlsdr,rtl="+device_idx)
+    comment: str("driver=rtlsdr,rtl="+didx)
+    dev_args: '""'
     freq_correction: '0'
     gain: rf_gain
     maxoutbuf: '0'
@@ -166,7 +166,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 276.0]
+    coordinate: [256, 284.0]
     rotation: 0
     state: true
 - name: xmlrpc_serv_ip
@@ -228,7 +228,7 @@ blocks:
     hide: none
     label: ZMQ OUT IP PORT
     short_id: O
-    type: ''
+    type: str
     value: '5000'
   states:
     bus_sink: false

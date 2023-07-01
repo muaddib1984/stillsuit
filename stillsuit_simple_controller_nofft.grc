@@ -308,7 +308,7 @@ blocks:
     hide: none
     label: ZMQ IN IP PORT
     short_id: Z
-    type: ''
+    type: str
     value: '5001'
   states:
     bus_sink: false
@@ -321,4 +321,4 @@ connections: []
 
 metadata:
   file_format: 1
-  grc_version: 3.10.2.0-rc1
+  grc_version: 3.10.3.0

@@ -83,7 +83,7 @@ blocks:
     label: RF GAIN
     min_len: '200'
     orient: QtCore.Qt.Horizontal
-    rangeType: float
+    rangeType: int
     start: '0'
     step: '1'
     stop: '80'
@@ -411,7 +411,7 @@ blocks:
     hide: none
     label: ZMQ IN IP PORT
     short_id: Z
-    type: ''
+    type: str
     value: '5000'
   states:
     bus_sink: false
